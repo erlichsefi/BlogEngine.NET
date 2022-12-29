@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+    cmdline-dev:
+        build:
+            context: .
+        working_dir: /app
+        volumes:
+            - "..:/app"
+        depends_on:
+            - database
+        command: >
+            bash -c "pwsh /app/dev/init.ps1 && sleep infinity"
+
+    database:
+        image: mcr.microsoft.com/mssql/server
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=PassWord42
+        ports:
+            - 7610:1433
